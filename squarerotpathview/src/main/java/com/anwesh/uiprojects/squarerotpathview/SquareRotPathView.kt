@@ -201,4 +201,27 @@ class SquareRotPathView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : SquareRotPathView) {
+
+        private val animator : Animator = Animator(view)
+        private val srp : SquareRotPath = SquareRotPath(0)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            srp.draw(canvas, paint)
+            animator.animate {
+                srp.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            srp.startUpdating {
+                animator.stop()
+            }
+        }
+    }
 }
